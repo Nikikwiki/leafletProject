@@ -4,6 +4,8 @@ export var geoLayerGroup = new L.LayerGroup();
 export var jsonLayerGroup = new L.LayerGroup();
 export var csvLayerGroup = new L.LayerGroup();
 
+let input = document.getElementById('filter-text-box');
+
 var locationX = 51.505, 
     locationY = -0.09, 
     locationZ = 13;
@@ -35,6 +37,7 @@ map.on('moveend', setCurrentLocation);
 
 map.on("baselayerchange", function (e) {
   stopPresentation();
+  input.value = '';
   localStorage.setItem("activeBaseLayer", e.name);
 
   let layers = [] 
@@ -51,7 +54,9 @@ map.on("baselayerchange", function (e) {
   }
 
   var group = L.featureGroup(layers);
-  map.fitBounds(group.getBounds());
+  if(Object.keys(group._layers).length !== 0) {
+    map.fitBounds(group.getBounds());
+  }
 
 });
 

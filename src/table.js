@@ -1,9 +1,10 @@
-import { geoJsonTableData, jsonTableData, csvTableData } from "./fetch-markers";
-import { map, csvLayerGroup, geoLayerGroup, jsonLayerGroup } from "./map";
+import { csvTableData, geoJsonTableData, jsonTableData } from "./fetch-markers";
+import { csvLayerGroup, geoLayerGroup, jsonLayerGroup, map } from "./map";
 import { stopPresentation } from './presentation';
 
+export let input = document.querySelector("#filter-text-box");
+
 let tableName = "csv";
-let input = document.querySelector("#filter-text-box");
 
 export function selectTable(e) {
   const eGridDiv = document.getElementById("myGrid");
@@ -71,7 +72,6 @@ export function renderJsonTable(tableName) {
     jsonLayerGroup.clearLayers();
 
     gridOptions.api.forEachNodeAfterFilter(node => {
-      console.log(node.data);
         geoLayerGroup.addLayer(
           L.circleMarker([node.data.lat, node.data.lng])
             .bindPopup(`Address: ${node.data.address} <br> Name: ${node.data.name}`)
@@ -81,8 +81,6 @@ export function renderJsonTable(tableName) {
             .bindPopup(`Address: ${node.data.adres} <br> Name: ${node.data.name}`)
         )
     });
-
-    console.log(gridOptions.api.getModel());
   });
 }
 

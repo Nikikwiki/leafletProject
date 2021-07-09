@@ -1,5 +1,6 @@
-import axios from 'axios';
-import { geoLayerGroup, jsonLayerGroup, csvLayerGroup, layercontrol, map } from './map'
+import axios from 'axios'
+
+import { csvLayerGroup, geoLayerGroup, jsonLayerGroup, layercontrol, map } from './map'
 
 export var geoJsonTableData, jsonTableData, csvTableData;
 
