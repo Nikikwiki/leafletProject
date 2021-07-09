@@ -1,0 +1,86 @@
+html,
+body {
+  -webkit-text-size-adjust: none;
+  height: 100%;
+  min-height: 100%;
+  width: 100%;
+  min-width: 100%;
+  padding: 0;
+  margin: 0;
+  overflow: hidden;
+}
+
+#mapid {
+  height: 600px;
+}
+
+.table {
+  height: 600px;
+  position: relative;
+}
+
+.form__input {
+  font-size: 16px;
+  padding: 10px;
+  display: block;
+  width: 300px;
+  border-bottom: 1px solid #ccc;
+  line-height: 20px;
+  border-radius: 2px;
+  border: 2px solid #ccc;
+  position: absolute;
+  z-index: 2023;
+  left: 8px;
+  top: 550px;
+}
+
+.form__input:focus {
+  outline: none;
+}
+
+.form__input:focus ~ .form__input,
+.form__input:valid ~ .form__label {
+  top: -15px;
+  font-size: 14px;
+  color: #5264ae;
+}
+
+input:focus ~ .bar:before,
+input:focus ~ .bar:after {
+  width: 50%;
+}
+
+.example-wrapper {
+  display: flex;
+  flex-direction: column;
+  height: 100%;
+}
+
+.example-header {
+  font-family: Verdana, Geneva, Tahoma, sans-serif;
+  font-size: 13px;
+}
+
+.presentation {
+  position: absolute;
+  left: 9px;
+  top: 494px;
+  z-index: 10000;
+  width: 44px;
+  height: 44px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background-color: #fff;
+  border: 2px solid rgba(0, 0, 0, 0.2);
+  border-radius: 5px;
+  cursor: pointer;
+}
+
+.presentation__img {
+  height: 32px;
+}
+
+.presentation:hover {
+  background-color: #f4f4f4;
+}

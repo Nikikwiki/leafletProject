@@ -1,0 +1,25 @@
+{
+  "name": "wp",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "start": "cross-env NODE_ENV=development webpack-dev-server"
+  },
+  "author": "",
+  "license": "ISC",
+  "devDependencies": {
+    "cross-env": "^7.0.3",
+    "html-webpack-plugin": "^3.2.0",
+    "webpack": "^4.44.2",
+    "webpack-cli": "^3.3.10",
+    "webpack-dev-server": "^3.11.0"
+  },
+  "dependencies": {
+    "ag-grid-community": "^25.3.0",
+    "axios": "^0.21.1",
+    "csvtojson": "^2.0.10",
+    "jquery": "^3.6.0",
+    "leaflet": "^1.7.1"
+  }
+}
