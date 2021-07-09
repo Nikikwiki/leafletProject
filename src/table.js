@@ -68,6 +68,8 @@ export function renderJsonTable(tableName) {
       document.getElementById("filter-text-box").value
     );
 
+    changeHash();
+
     geoLayerGroup.clearLayers();
     jsonLayerGroup.clearLayers();
 
@@ -122,6 +124,8 @@ export function renderCSVTable() {
       document.getElementById("filter-text-box").value
     );
 
+    changeHash();
+
     csvLayerGroup.clearLayers();
     gridOptions.api.forEachNodeAfterFilter(node => {
       csvLayerGroup.addLayer(
@@ -156,4 +160,10 @@ function toggleCsvMarker() {
       layer.togglePopup();
     }
   });
+}
+
+function changeHash() {
+  const hashArray = window.location.hash.split('/');
+  hashArray[4] = input.value;
+  window.location.hash = hashArray.join('/');
 }

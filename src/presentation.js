@@ -1,4 +1,4 @@
-import { map, csvLayerGroup, geoLayerGroup, jsonLayerGroup } from './map';
+import { csvLayerGroup, geoLayerGroup, jsonLayerGroup, map } from './map';
 
 let lastIndex = 0;
 let stopPresentationFlag = true;
@@ -18,7 +18,8 @@ play.addEventListener("click", () => {
 
 function showPresentation() {
   const layers = [];
-  let tableName = localStorage.getItem("activeBaseLayer");
+  const hashArray = window.location.hash.split('/');
+  let tableName = hashArray[3];
   switch (tableName) {
     case "csv":
       csvLayerGroup.eachLayer((layer) => layers.push(layer));

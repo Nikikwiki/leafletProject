@@ -6,27 +6,30 @@ export var csvLayerGroup = new L.LayerGroup();
 
 let input = document.getElementById('filter-text-box');
 
-var locationX = 51.505, 
+let locationX = 51.505, 
     locationY = -0.09, 
-    locationZ = 13;
+    locationZ = 13,
+    activeBaseLayer = 'csv',
+    filter = '';
 
 function locateView() {
-  if(localStorage.getItem('locationX')) {
-    locationX = localStorage.getItem('locationX');
-    locationY = localStorage.getItem('locationY');
-    locationZ = localStorage.getItem('locationZ');
+  if(window.location.hash) {
+    const hashArray = window.location.hash.split('/');
+    locationX = hashArray[0].slice(1);
+    locationY = hashArray[1];
+    locationZ = hashArray[2];
+    activeBaseLayer = hashArray[3];
+    input.value = hashArray[4]
   }
 } 
 
 locateView();
 
 function setCurrentLocation() {
-locationX = map.getCenter().lat;
-locationY = map.getCenter().lng;
-locationZ = map.getZoom();
-locationX = localStorage.setItem('locationX', locationX);
-locationY = localStorage.setItem('locationY', locationY);
-locationZ = localStorage.setItem('locationZ', locationZ);
+  locationX = map.getCenter().lat;
+  locationY = map.getCenter().lng;
+  locationZ = map.getZoom();
+  window.location.hash = `${locationX}/${locationY}/${locationZ}/${activeBaseLayer}/${filter}`;
 }
 
 export var map = L.map('mapid', {
@@ -37,8 +40,11 @@ map.on('moveend', setCurrentLocation);
 
 map.on("baselayerchange", function (e) {
   stopPresentation();
-  input.value = '';
-  localStorage.setItem("activeBaseLayer", e.name);
+  input.value = ''; 
+  const hashArray = window.location.hash.split('/');
+  hashArray[3] = e.name;
+  activeBaseLayer = e.name;
+  window.location.hash = hashArray.join('/');
 
   let layers = [] 
   switch(e.name) {

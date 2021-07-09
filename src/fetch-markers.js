@@ -1,4 +1,4 @@
-import axios from 'axios'
+import axios from 'axios';
 
 import { csvLayerGroup, geoLayerGroup, jsonLayerGroup, layercontrol, map } from './map'
 
@@ -13,7 +13,8 @@ export async function renderGeoJson() {
           .bindPopup(`Address: ${f.properties.address} <br> Name: ${f.properties.name}`)
       )
     })
-    if (localStorage.getItem("activeBaseLayer") == "geoJson") {
+    const hashArray = window.location.hash.split('/');
+    if (hashArray[3] == "geoJson") {
       geoLayerGroup.addTo(map);
     }
     layercontrol.addBaseLayer(geoLayerGroup, 'geoJson');
@@ -30,7 +31,8 @@ export async function renderJson() {
         .bindPopup(`Address: ${f.properties.adres} <br> Name: ${f.properties.name}`)
         )
       })
-      if (localStorage.getItem("activeBaseLayer") == "json") {
+      const hashArray = window.location.hash.split('/');
+      if (hashArray[3] == "json") {
         jsonLayerGroup.addTo(map);
       }
       layercontrol.addBaseLayer(jsonLayerGroup, 'json');
@@ -66,7 +68,8 @@ export async function renderCSV() {
       )
     })
   });
-  if (localStorage.getItem("activeBaseLayer") == "csv") {
+  const hashArray = window.location.hash.split('/');
+  if (hashArray[3] == "csv") {
     csvLayerGroup.addTo(map);
   }
 

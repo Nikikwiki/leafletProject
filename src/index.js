@@ -1,6 +1,7 @@
-import {selectTable, renderJsonTable, renderCSVTable} from './table.js';
-import {map, onMapClick} from './map';
-import {renderGeoJson, renderJson, renderCSV} from './fetch-markers';
+import { renderCSV, renderGeoJson, renderJson } from './fetch-markers';
+import { map, onMapClick } from './map';
+import { renderCSVTable, renderJsonTable, selectTable } from './table.js';
+
 import './presentation';
 
 map.on('click', onMapClick);
@@ -10,7 +11,9 @@ async function renderAll() {
 }
 
 renderAll().then(() => {
-  let tableName = localStorage.getItem('activeBaseLayer');
+  const hashArray = window.location.hash.split('/');
+  let tableName = hashArray[3];
+
   switch(tableName) {
       case 'csv': 
         renderCSVTable();
