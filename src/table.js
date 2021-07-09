@@ -2,7 +2,8 @@ import { geoJsonTableData, jsonTableData, csvTableData } from "./fetch-markers";
 import { map, csvLayerGroup, geoLayerGroup, jsonLayerGroup } from "./map";
 import { stopPresentation } from './presentation';
 
-var tableName = "csv";
+let tableName = "csv";
+let input = document.querySelector("#filter-text-box");
 
 export function selectTable(e) {
   const eGridDiv = document.getElementById("myGrid");
@@ -52,22 +53,7 @@ export function renderJsonTable(tableName) {
     onRowClicked: function (e) {
       map.setView([e.data.lat, e.data.lng], 18);
       stopPresentation();
-
-      if (tableName == "geoJson") {
-        geoLayerGroup.eachLayer((layer) => {
-          const coords = layer.getLatLng();
-          if (coords.lat == e.data.lat && coords.lng == e.data.lng) {
-            layer.togglePopup();
-          }
-        });
-      } else {
-        jsonLayerGroup.eachLayer((layer) => {
-          const coords = layer.getLatLng();
-          if (coords.lat == e.data.lat && coords.lng == e.data.lng) {
-            layer.togglePopup();
-          }
-        });
-      }
+      toggleJsonMarker();
     },
   };
 
@@ -75,12 +61,28 @@ export function renderJsonTable(tableName) {
   new agGrid.Grid(eGridDiv, gridOptions);
   gridOptions.api.sizeColumnsToFit();
 
-  let input = document.querySelector("#filter-text-box");
-  input.addEventListener("input", (e) => {
+  input.addEventListener("input", () => {
     stopPresentation();
     gridOptions.api.setQuickFilter(
       document.getElementById("filter-text-box").value
     );
+
+    geoLayerGroup.clearLayers();
+    jsonLayerGroup.clearLayers();
+
+    gridOptions.api.forEachNodeAfterFilter(node => {
+      console.log(node.data);
+        geoLayerGroup.addLayer(
+          L.circleMarker([node.data.lat, node.data.lng])
+            .bindPopup(`Address: ${node.data.address} <br> Name: ${node.data.name}`)
+        )
+        jsonLayerGroup.addLayer(
+          L.circleMarker([node.data.lat, node.data.lng])
+            .bindPopup(`Address: ${node.data.adres} <br> Name: ${node.data.name}`)
+        )
+    });
+
+    console.log(gridOptions.api.getModel());
   });
 }
 
@@ -106,26 +108,54 @@ export function renderCSVTable() {
     columnDefs: columnDefs,
     rowData: rowData,
     onRowClicked: function (e) {
-      stopPresentation();
       map.setView([e.data.lat, e.data.lon], 18);
-      csvLayerGroup.eachLayer((layer) => {
-        const coords = layer.getLatLng();
-        if (coords.lat == e.data.lat && coords.lng == e.data.lon) {
-          layer.togglePopup();
-        }
-      });
+      stopPresentation();
+      toggleCsvMarker();
     },
   };
 
   const eGridDiv = document.querySelector("#myGrid");
   new agGrid.Grid(eGridDiv, gridOptions);
   gridOptions.api.sizeColumnsToFit();
-
-  let input = document.querySelector("#filter-text-box");
-  input.addEventListener("input", (e) => {
+  
+  input.addEventListener("input", () => {
     stopPresentation();
     gridOptions.api.setQuickFilter(
       document.getElementById("filter-text-box").value
     );
+
+    csvLayerGroup.clearLayers();
+    gridOptions.api.forEachNodeAfterFilter(node => {
+      csvLayerGroup.addLayer(
+        L.circleMarker(node.data).bindPopup(`Address: ${node.data.name_ru}`)
+      )
+    });
+  });
+}
+
+function toggleJsonMarker() {
+  if (tableName == "geoJson") {
+    geoLayerGroup.eachLayer((layer) => {
+      const coords = layer.getLatLng();
+      if (coords.lat == e.data.lat && coords.lng == e.data.lng) {
+        layer.togglePopup();
+      }
+    });
+  } else {
+    jsonLayerGroup.eachLayer((layer) => {
+      const coords = layer.getLatLng();
+      if (coords.lat == e.data.lat && coords.lng == e.data.lng) {
+        layer.togglePopup();
+      }
+    });
+  }
+}
+
+function toggleCsvMarker() {
+  csvLayerGroup.eachLayer((layer) => {
+    const coords = layer.getLatLng();
+    if (coords.lat == e.data.lat && coords.lng == e.data.lon) {
+      layer.togglePopup();
+    }
   });
 }
