@@ -54,13 +54,15 @@ export function renderJsonTable(tableName) {
     onRowClicked: function (e) {
       map.setView([e.data.lat, e.data.lng], 18);
       stopPresentation();
-      toggleJsonMarker();
+      toggleJsonMarker(e);
     },
   };
 
   const eGridDiv = document.querySelector("#myGrid");
   new agGrid.Grid(eGridDiv, gridOptions);
   gridOptions.api.sizeColumnsToFit();
+
+  const event = new Event('input');
 
   input.addEventListener("input", () => {
     stopPresentation();
@@ -84,6 +86,11 @@ export function renderJsonTable(tableName) {
         )
     });
   });
+
+  const hashArray = window.location.hash.split('/');
+  if(hashArray[4] !== '') {
+    input.dispatchEvent(event);
+  }
 }
 
 export function renderCSVTable() {
@@ -110,13 +117,15 @@ export function renderCSVTable() {
     onRowClicked: function (e) {
       map.setView([e.data.lat, e.data.lon], 18);
       stopPresentation();
-      toggleCsvMarker();
+      toggleCsvMarker(e);
     },
   };
 
   const eGridDiv = document.querySelector("#myGrid");
   new agGrid.Grid(eGridDiv, gridOptions);
   gridOptions.api.sizeColumnsToFit();
+
+  const event = new Event('input');
   
   input.addEventListener("input", () => {
     stopPresentation();
@@ -133,9 +142,14 @@ export function renderCSVTable() {
       )
     });
   });
+  
+  const hashArray = window.location.hash.split('/');
+  if(hashArray[4] !== '') {
+    input.dispatchEvent(event);
+  }
 }
 
-function toggleJsonMarker() {
+function toggleJsonMarker(e) {
   if (tableName == "geoJson") {
     geoLayerGroup.eachLayer((layer) => {
       const coords = layer.getLatLng();
@@ -153,7 +167,7 @@ function toggleJsonMarker() {
   }
 }
 
-function toggleCsvMarker() {
+function toggleCsvMarker(e) {
   csvLayerGroup.eachLayer((layer) => {
     const coords = layer.getLatLng();
     if (coords.lat == e.data.lat && coords.lng == e.data.lon) {

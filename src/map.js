@@ -19,7 +19,7 @@ function locateView() {
     locationY = hashArray[1];
     locationZ = hashArray[2];
     activeBaseLayer = hashArray[3];
-    input.value = hashArray[4]
+    input.value = hashArray[4];
   }
 } 
 
