@@ -11,11 +11,11 @@ body {
 }
 
 #mapid {
-  height: 600px;
+  height: 70%;
 }
 
 .table {
-  height: 600px;
+  height: 100%;
   position: relative;
 }
 
@@ -31,7 +31,7 @@ body {
   position: absolute;
   z-index: 2023;
   left: 8px;
-  top: 550px;
+  top: calc(70% - 52px);
 }
 
 .form__input:focus {
@@ -54,17 +54,19 @@ input:focus ~ .bar:after {
   display: flex;
   flex-direction: column;
   height: 100%;
+  position: relative;
 }
 
 .example-header {
   font-family: Verdana, Geneva, Tahoma, sans-serif;
   font-size: 13px;
+  position: relative;
 }
 
 .presentation {
   position: absolute;
   left: 9px;
-  top: 494px;
+  top: calc(70% - 106px);
   z-index: 10000;
   width: 44px;
   height: 44px;
